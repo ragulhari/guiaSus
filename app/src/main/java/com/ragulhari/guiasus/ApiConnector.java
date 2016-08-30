@@ -58,7 +58,4 @@ public class ApiConnector extends AsyncTask<String, Void, String> {
         return (total == null?"":total);
     }
 
-    protected void onPostExecute(String value) {
-    }
-
 }

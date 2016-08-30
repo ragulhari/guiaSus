@@ -20,13 +20,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import android.support.v4.content.ContextCompat;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Iterator;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private GoogleMap mMap;
     public double latitudeAtual = 12;
     public double longitudeAtual = 40;
     private GoogleApiClient mGoogleApiClient;
-    private Location mLastLocation;
     private LocationRequest locationRequest;
     protected FusedLocationProviderApi fusedLocationProviderApi;
 
@@ -60,57 +65,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
     }
-
-    private void updateMarker(Location mLastLocation) {
-
-        if (mLastLocation != null) {
-            latitudeAtual = mLastLocation.getLatitude();
-            longitudeAtual = mLastLocation.getLongitude();
-        }
-        else {
-            /*TODO REMOVER - Para efeito de simulação apenas, se o resultado vier como 0, adotando local padrão*/
-            latitudeAtual = -22.3086645;
-            longitudeAtual = -49.05382;
-        }
-
-
-        // Add a marker in Sydney and move the camera
-        LatLng  newCoordinates = new LatLng(latitudeAtual, longitudeAtual);
-        mMap.addMarker(new MarkerOptions().position(newCoordinates).title("Sua localização atual"));
-        mMap.setMinZoomPreference(14);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(newCoordinates));
-
-        getAllPlacesFromLocation(latitudeAtual, longitudeAtual);
-
-    }
-
-    private void getAllPlacesFromLocation(double latitude, double longitude) {
-        String response;
-
-        ApiConnector objConector = new ApiConnector();
-        int intSearchRay = 10;
-
-        String strUrl = "rest/estabelecimentos/latitude/" + Double.toString(latitude) + "/longitude/" + Double.toString(longitude) + "/raio/" + Integer.toString(intSearchRay);
-
-        try {
-            response = objConector.execute(strUrl).get();
-        }
-        catch(Exception err)
-        {
-            response = null;
-        }
-
-
-
-        if (response == null) {
-            response = "tem uma mensagem de erro aqui";
-        }
-        else {
-            response = "sucesso!" + response;
-        }
-    }
-
-
 
     //Callback da conexão com o Location Services
     @Override
@@ -169,4 +123,69 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onConnectionFailed(ConnectionResult obj) {
     }
+
+    private void getAllPlacesFromLocation(double latitude, double longitude) {
+        String response;
+
+        ApiConnector objConector = new ApiConnector();
+        int intSearchRay = 50;
+
+        String strUrl = "rest/estabelecimentos/latitude/" + Double.toString(latitude) + "/longitude/" + Double.toString(longitude) + "/raio/" + Integer.toString(intSearchRay);
+
+        try {
+            response = objConector.execute(strUrl).get();
+        }
+        catch(Exception err)
+        {
+            response = null;
+        }
+
+        if (response != null) {
+            try {
+                JSONArray objJSON = new JSONArray(response);
+                for (int i=0; i < objJSON.length(); i++)
+                {
+                    JSONObject objItem = objJSON.getJSONObject(i);
+                    MarkerOptions objMarkerOptions = new MarkerOptions();
+                    objMarkerOptions.title(objItem.getString("tipoUnidade") + " - " + objItem.getString("nomeFantasia"));
+                    objMarkerOptions.position(new LatLng(objItem.getDouble("lat"), objItem.getDouble("long")));
+                    mMap.addMarker(objMarkerOptions);
+                }
+
+            }
+            catch (JSONException err) {
+                err.getStackTrace();
+            }
+
+        }
+    }
+
+
+    private void updateMarker(Location mLastLocation) {
+
+        if (mLastLocation != null) {
+            latitudeAtual = mLastLocation.getLatitude();
+            longitudeAtual = mLastLocation.getLongitude();
+        }
+        else {
+            /*TODO REMOVER - Para efeito de simulação apenas, se o resultado vier como 0, adotando local padrão*/
+            //latitudeAtual = -22.3086645;
+            //longitudeAtual = -49.05382;
+
+            latitudeAtual = -23.5865838;
+            longitudeAtual = -46.6720745;
+        }
+
+
+        // Add a marker in Sydney and move the camera
+        LatLng  newCoordinates = new LatLng(latitudeAtual, longitudeAtual);
+        mMap.addMarker(new MarkerOptions().position(newCoordinates).title("Sua localização atual"));
+        mMap.setMinZoomPreference(14);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(newCoordinates));
+
+        getAllPlacesFromLocation(latitudeAtual, longitudeAtual);
+
+    }
+
+
 }
