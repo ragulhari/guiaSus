@@ -1,5 +1,6 @@
 package com.ragulhari.guiasus;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.v4.app.ActivityCompat;
@@ -14,19 +15,23 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import android.support.v4.app.FragmentManager;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.ragulhari.guiasus.dummy.DummyContent;
+
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Iterator;
-
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, OpcoesFragment.OnListFragmentInteractionListener {
 
     private GoogleMap mMap;
     public double latitudeAtual = 12;
@@ -34,6 +39,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest locationRequest;
     protected FusedLocationProviderApi fusedLocationProviderApi;
+    static final int REQUEST_CODE_CONFIGURATION = 9560;
+
+    MapFragment mMapFragment;
 
     public static final int  MY_PERMISSION_ACCESS_COURSE_LOCATION = 901;
     public static final int  INTERVAL_TIME = 30000;
@@ -47,6 +55,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -64,6 +75,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             fusedLocationProviderApi = LocationServices.FusedLocationApi;
         }
 
+        Button btnOptionsButton = (Button)findViewById(R.id.btn_options_map);
+        btnOptionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.map, new OpcoesFragment()).addToBackStack("map")
+                        .commit();
+            }
+        });
+
+        Button btnGoToListButton = (Button)findViewById(R.id.btn_list);
+        btnGoToListButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                final FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.map, new ListActivityFragment()).addToBackStack("list")
+                        .commit();
+            }
+        });
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_CONFIGURATION)
+        {
+
+        }
     }
 
     //Callback da conexão com o Location Services
@@ -147,7 +190,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 {
                     JSONObject objItem = objJSON.getJSONObject(i);
                     MarkerOptions objMarkerOptions = new MarkerOptions();
-                    objMarkerOptions.title(objItem.getString("tipoUnidade") + " - " + objItem.getString("nomeFantasia"));
+                    objMarkerOptions.title(objItem.getString("nomeFantasia"));
+                    objMarkerOptions.snippet(objItem.getString("tipoUnidade") +" - " + objItem.getString("telefone"));
                     objMarkerOptions.position(new LatLng(objItem.getDouble("lat"), objItem.getDouble("long")));
                     mMap.addMarker(objMarkerOptions);
                 }
@@ -169,9 +213,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         else {
             /*TODO REMOVER - Para efeito de simulação apenas, se o resultado vier como 0, adotando local padrão*/
-            //latitudeAtual = -22.3086645;
-            //longitudeAtual = -49.05382;
-
             latitudeAtual = -23.5865838;
             longitudeAtual = -46.6720745;
         }
@@ -180,12 +221,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
         LatLng  newCoordinates = new LatLng(latitudeAtual, longitudeAtual);
         mMap.addMarker(new MarkerOptions().position(newCoordinates).title("Sua localização atual"));
-        mMap.setMinZoomPreference(14);
+        mMap.setMinZoomPreference(16);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(newCoordinates));
 
         getAllPlacesFromLocation(latitudeAtual, longitudeAtual);
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+//        Intent intent = new Intent(this, Fragment.class);
+//        intent.putExtra("denied",true);
+//        startActivity(intent);
+    }
 
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
+    }
 }

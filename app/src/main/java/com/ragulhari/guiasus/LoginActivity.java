@@ -97,8 +97,10 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.O
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d("SignInActivity", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            System.out.println("Só falta inicializar a outra actividy");
+            Intent intent = new Intent(this, MapsActivity.class);
             GoogleSignInAccount acct = result.getSignInAccount();
+            intent.putExtra("account",acct.getEmail());
+            startActivity(intent);
 
 
         } else {

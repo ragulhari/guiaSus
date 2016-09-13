@@ -27,6 +27,8 @@ dependencies {
     compile 'com.google.android.gms:play-services:9.4.0'
     compile 'com.google.android.gms:play-services-auth:9.4.0'
     compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:support-v4:24.2.0'
+    compile 'com.android.support:recyclerview-v7:24.2.0'
 }
 apply plugin: 'com.google.gms.google-services' //Não tirar deste lugar, o Gradle não reconhece a versão correta se fizer isso :(
 
