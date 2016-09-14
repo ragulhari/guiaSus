@@ -3,6 +3,7 @@ package com.ragulhari.guiasus;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ragulhari.guiasus.dummy.DummyContent;
+import com.ragulhari.guiasus.listObjects.placeListObjectItem;
 
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -31,7 +33,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, OpcoesFragment.OnListFragmentInteractionListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        LocationListener, OpcoesFragment.OnListFragmentInteractionListener, PlaceFragment.OnListFragmentInteractionListener,
+        PlaceDetailedFragment.OnFragmentInteractionListener{
 
     private GoogleMap mMap;
     public double latitudeAtual = 12;
@@ -40,6 +45,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest locationRequest;
     protected FusedLocationProviderApi fusedLocationProviderApi;
     static final int REQUEST_CODE_CONFIGURATION = 9560;
+    public String strLastQueryResponse;
 
     MapFragment mMapFragment;
 
@@ -56,8 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
-
+        strLastQueryResponse = "";
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -91,9 +96,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             @Override
             public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("queryResponse", strLastQueryResponse);
+
+                // set Fragmentclass Arguments
+                PlaceFragment fragobj = new PlaceFragment();
+                fragobj.setArguments(bundle);
+
                 final FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.map, new ListActivityFragment()).addToBackStack("list")
+                        .replace(R.id.map, fragobj).addToBackStack("list")
                         .commit();
             }
         });
@@ -188,13 +200,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 JSONArray objJSON = new JSONArray(response);
                 for (int i=0; i < objJSON.length(); i++)
                 {
+                    String tempTelefone;
+                    String tempNomeFantasia;
+                    String tempTipoUnidade;
+
                     JSONObject objItem = objJSON.getJSONObject(i);
                     MarkerOptions objMarkerOptions = new MarkerOptions();
-                    objMarkerOptions.title(objItem.getString("nomeFantasia"));
-                    objMarkerOptions.snippet(objItem.getString("tipoUnidade") +" - " + objItem.getString("telefone"));
+
+                    if (objItem.has("nomeFantasia"))
+                        tempNomeFantasia = objItem.getString("nomeFantasia");
+                    else
+                        tempNomeFantasia = "Sem nome cadastrado";
+
+                    if (objItem.has("tipoUnidade"))
+                        tempTipoUnidade = objItem.getString("tipoUnidade");
+                    else
+                        tempTipoUnidade = "N/A";
+
+                    if (objItem.has("telefone"))
+                        tempTelefone = objItem.getString("telefone");
+                    else
+                        tempTelefone = "Sem telefone";
+
+                    objMarkerOptions.title(tempNomeFantasia);
+                    objMarkerOptions.snippet(tempTipoUnidade +" - " + tempTelefone);
                     objMarkerOptions.position(new LatLng(objItem.getDouble("lat"), objItem.getDouble("long")));
                     mMap.addMarker(objMarkerOptions);
                 }
+
+                this.strLastQueryResponse = response;
 
             }
             catch (JSONException err) {
@@ -239,6 +273,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
+    }
+
+    //Fragment PlaceFragment
+    @Override
+    public void onListFragmentInteraction(placeListObjectItem item) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("selectedItem", item.convertToString());
+
+        // set Fragmentclass Arguments
+        PlaceDetailedFragment fragobj = new PlaceDetailedFragment();
+        fragobj.setArguments(bundle);
+
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.map, fragobj).addToBackStack("detail")
+                .commit();
+
+    }
+
+    //Fragment PlaceDetailFragment
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }
