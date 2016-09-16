@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ragulhari.guiasus.dummy.DummyContent.DummyItem;
+import com.ragulhari.guiasus.listObjects.*;
 
 /**
  * A fragment representing a list of Items.
@@ -74,7 +74,7 @@ public class OpcoesFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(placeListObject item);
     }
 
 }

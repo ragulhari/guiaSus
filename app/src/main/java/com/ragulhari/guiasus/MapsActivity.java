@@ -20,9 +20,11 @@ import com.google.android.gms.maps.MapFragment;
 import android.support.v4.app.FragmentManager;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.ragulhari.guiasus.dummy.DummyContent;
+import com.ragulhari.guiasus.listObjects.placeListObject;
 import com.ragulhari.guiasus.listObjects.placeListObjectItem;
 
 import android.support.v4.content.ContextCompat;
@@ -79,6 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             fusedLocationProviderApi = LocationServices.FusedLocationApi;
         }
+
 
         Button btnOptionsButton = (Button)findViewById(R.id.btn_options_map);
         btnOptionsButton.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +157,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+            public void onInfoWindowClick(Marker marker) {
+                String strTitulo = marker.getTitle();
+                Bundle bundle = new Bundle();
+                bundle.putString("titulo", strTitulo);
+                bundle.putString("queryResponse", strLastQueryResponse);
+
+                // set Fragmentclass Arguments
+                PlaceDetailedFragment fragobj = new PlaceDetailedFragment();
+                fragobj.setArguments(bundle);
+
+                final FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.map, fragobj).addToBackStack("detailFromMap")
+                        .commit();
+            }
+        });
+
     }
 
     protected void onStart() {
@@ -224,6 +246,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     objMarkerOptions.title(tempNomeFantasia);
                     objMarkerOptions.snippet(tempTipoUnidade +" - " + tempTelefone);
+                    //objMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                    objMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.health_map_icon));
                     objMarkerOptions.position(new LatLng(objItem.getDouble("lat"), objItem.getDouble("long")));
                     mMap.addMarker(objMarkerOptions);
                 }
@@ -272,7 +296,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(placeListObject item) {
 
     }
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.ragulhari.guiasus.listObjects.*;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -32,9 +33,20 @@ public class PlaceDetailedFragment extends Fragment {
     private placeListObject objItemList;
     private String objJSONItem;
 
+    TextView nomeFantasia_detail;
+    TextView telefone_detail;
+    TextView tipoUnidade_detail;
+    TextView bairro_detail;
+    TextView logradouro_numero_detail;
+    TextView cidade_uf_detail;
+    TextView atendimento_urgencia_detail;
+    TextView obstetra_detail;
+    TextView neonatal_detail;
+
     private OnFragmentInteractionListener mListener;
 
     public PlaceDetailedFragment() {
+        objItem = new placeListObjectItem();
         objItemList = new placeListObject();
     }
 
@@ -42,8 +54,6 @@ public class PlaceDetailedFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment PlaceDetailedFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -55,55 +65,81 @@ public class PlaceDetailedFragment extends Fragment {
         return fragment;
     }
 
+    public void populateForm(placeListObjectItem objItem){
+        nomeFantasia_detail.setText(objItem.strNomeFantasia);
+        telefone_detail.setText(objItem.strTelefone);
+        tipoUnidade_detail.setText(objItem.strTipoUnidade);
+        bairro_detail.setText(objItem.strBairro);
+        logradouro_numero_detail.setText(objItem.strLogradouro + " - " + objItem.strNumero);
+        cidade_uf_detail.setText(objItem.strCidade + " - " + objItem.strUf);
+        atendimento_urgencia_detail.setText("Tem atendimento de Urgência? - " + objItem.strAtendimentoUrgencia);
+        obstetra_detail.setText("Tem Obstetra? - " + objItem.strObstetra);
+        neonatal_detail.setText("Realiza exame Neo Natal? - " + objItem.strNeoNatal);
+
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        TextView nomeFantasia_detail = (TextView)getView().findViewById(R.id.nomeFantasia_detail);
-        TextView telefone_detail = (TextView)getView().findViewById(R.id.telefone_detail);
-        TextView tipoUnidade_detail = (TextView)getView().findViewById(R.id.tipoUnidade_detail);
-        TextView bairro_detail = (TextView)getView().findViewById(R.id.bairro_detail);
-        TextView logradouro_numero_detail = (TextView)getView().findViewById(R.id.logradouro_numero_detail);
-        TextView cidade_uf_detail = (TextView)getView().findViewById(R.id.cidade_uf_detail);
-        TextView atendimento_urgencia_detail = (TextView)getView().findViewById(R.id.atendimento_urgencia_detail);
-        TextView obstetra_detail = (TextView)getView().findViewById(R.id.obstetra_detail);
-        TextView neonatal_detail = (TextView)getView().findViewById(R.id.neonatal_detail);
-
-        if (getArguments() != null) {
-            if (getArguments().containsKey("selectedItem"))
-            {
-                placeListObjectItem objDetailedPlace;
-
-                try{
-                    objJSONItem = getArguments().getString(ARG_PARAM1);
-                    JSONArray objArray = new JSONArray(objJSONItem);
-                    objItemList.createArray(objArray);
-                    objDetailedPlace = objItemList.objListPlaces.get(0);
-
-                    nomeFantasia_detail.setText(objDetailedPlace.strNomeFantasia);
-                    telefone_detail.setText(objDetailedPlace.strTelefone);
-                    tipoUnidade_detail.setText(objDetailedPlace.strTipoUnidade);
-                    bairro_detail.setText(objDetailedPlace.strBairro);
-                    logradouro_numero_detail.setText(objDetailedPlace.strLogradouro + " - " + objDetailedPlace.strNumero);
-                    cidade_uf_detail.setText(objDetailedPlace.strCidade + " - " + objDetailedPlace.strUf);
-                    atendimento_urgencia_detail.setText("Tem atendimento de Urgência? - " + String.valueOf(objDetailedPlace.blnAtendimentoUrgencia));
-                    obstetra_detail.setText("Tem atendimento de Urgência? - " + String.valueOf(objDetailedPlace.blnObstetra));
-                    neonatal_detail.setText("Tem atendimento de Urgência? - " + String.valueOf(objDetailedPlace.blnNeoNatal));
-
-                }
-                catch (Exception err)
-                {
-                    err.getStackTrace();
-                }
-            }
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View vDetailed = inflater.inflate(R.layout.fragment_place_detailed, container, false);
+
+        nomeFantasia_detail = (TextView) vDetailed.findViewById(R.id.nomeFantasia_detail);
+        telefone_detail = (TextView) vDetailed.findViewById(R.id.telefone_detail);
+        tipoUnidade_detail = (TextView) vDetailed.findViewById(R.id.tipoUnidade_detail);
+        bairro_detail = (TextView) vDetailed.findViewById(R.id.bairro_detail);
+        logradouro_numero_detail = (TextView) vDetailed.findViewById(R.id.logradouro_numero_detail);
+        cidade_uf_detail = (TextView) vDetailed.findViewById(R.id.cidade_uf_detail);
+        atendimento_urgencia_detail = (TextView) vDetailed.findViewById(R.id.atendimento_urgencia_detail);
+        obstetra_detail = (TextView) vDetailed.findViewById(R.id.obstetra_detail);
+        neonatal_detail = (TextView) vDetailed.findViewById(R.id.neonatal_detail);
+
+        if (getArguments() != null) {
+            if (getArguments().containsKey("selectedItem"))
+            {
+                try{
+                    objJSONItem = getArguments().getString("selectedItem");
+                    objItem.createObjectFromJSON(new JSONObject(objJSONItem));
+                    populateForm(objItem);
+                }
+                catch (Exception err)
+                {
+                    err.printStackTrace();
+                }
+            }
+            else
+            {
+                if (getArguments().containsKey("titulo")){
+                    try {
+                        String strTitulo = getArguments().getString("titulo");
+                        JSONArray objArray = new JSONArray(getArguments().getString("queryResponse"));
+                        for (int i = 0; i < objArray.length(); i++)
+                        {
+                            if (objArray.getJSONObject(i).has("nomeFantasia") &&
+                                    strTitulo.equals(objArray.getJSONObject(i).getString("nomeFantasia")))
+                            {
+                                objItem.createObjectFromJSON(objArray.getJSONObject(i));
+                                populateForm(objItem);
+                            }
+                        }
+
+                    }
+                    catch (JSONException err){
+                        err.printStackTrace();
+                    }
+
+                }
+            }
+
+        }
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_place_detailed, container, false);
+        return vDetailed;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

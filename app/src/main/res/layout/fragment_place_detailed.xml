@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,19 +19,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-
+        android:layout_below="@id/title_detail"
         android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tipoUnidade_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/nomeFantasia_detail"
         />
 
     <TextView
         android:id="@+id/telefone_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tipoUnidade_detail"
         />
 
     <TextView
@@ -39,6 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Endereço:"
+        android:layout_below="@id/telefone_detail"
         android:textStyle="bold"
         />
 
@@ -46,18 +49,21 @@
         android:id="@+id/logradouro_numero_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/title_endereco"
         />
 
     <TextView
         android:id="@+id/bairro_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/logradouro_numero_detail"
         />
 
     <TextView
         android:id="@+id/cidade_uf_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/bairro_detail"
         />
 
     <TextView
@@ -65,6 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sobre os serviços disponíveis:"
+        android:layout_below="@id/cidade_uf_detail"
         android:textStyle="bold"
         />
 
@@ -72,17 +79,20 @@
         android:id="@+id/atendimento_urgencia_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/servicos"
         />
 
     <TextView
         android:id="@+id/obstetra_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/atendimento_urgencia_detail"
         />
 
     <TextView
         android:id="@+id/neonatal_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/obstetra_detail"
         />
-</FrameLayout>
+</RelativeLayout>

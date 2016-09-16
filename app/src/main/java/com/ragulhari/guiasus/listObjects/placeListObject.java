@@ -26,9 +26,9 @@ public class placeListObject {
     private String strTurnoAtendimento;
 
     //Serviços Prestados pelo estabelecimento
-    private boolean blnAtendimentoUrgencia;
-    private boolean blnObstetra;
-    private boolean blnNeoNatal;
+    private String strAtendimentoUrgencia;
+    private String strObstetra;
+    private String strNeoNatal;
 
     //Endereço do estabelecimento
     private String strLogradouro;
@@ -48,7 +48,7 @@ public class placeListObject {
 
                     placeListObjectItem obj = new placeListObjectItem(strNomeFantasia, strTipoUnidade,strTelefone,
                         strEsferaAdministrativa, strVinculoSus, strTurnoAtendimento, strLogradouro, strNumero, strBairro,
-                        strCidade, strUf, strCep, blnAtendimentoUrgencia, blnObstetra, blnNeoNatal);
+                        strCidade, strUf, strCep, strAtendimentoUrgencia, strObstetra, strNeoNatal);
 
                 addItem(obj);
             }
@@ -93,54 +93,57 @@ public class placeListObject {
                 strTurnoAtendimento = "Não informado";
 
             if (objJSON.has("temAtendimentoUrgencia"))
-                blnAtendimentoUrgencia = objJSON.getBoolean("temAtendimentoUrgencia");
+                strAtendimentoUrgencia = objJSON.getString("temAtendimentoUrgencia");
             else
-                blnAtendimentoUrgencia = false;
+                strAtendimentoUrgencia = "Não";
 
             if (objJSON.has("temObstetra"))
-                blnObstetra = objJSON.getBoolean("temObstetra");
+                strObstetra = objJSON.getString("temObstetra");
             else
-                blnObstetra = false;
+                strObstetra = "Não";
 
             if (objJSON.has("temNeoNatal"))
-                blnNeoNatal = objJSON.getBoolean("temNeoNatal");
+                strNeoNatal = objJSON.getString("temNeoNatal");
             else
-                blnNeoNatal = false;
+                strNeoNatal = "Não";
 
-            if (objJSON.has("logradouro") && (objJSON.getString("logradouro") != "null"))
+            if (objJSON.has("logradouro") && (objJSON.getString("logradouro") != "null") && objJSON.getString("logradouro") != null)
+            {
                 strLogradouro = objJSON.getString("logradouro");
-            else
-                strLogradouro = "";
 
-            if (objJSON.has("numero") && (objJSON.getString("numero") != "null"))
-                strNumero = objJSON.getString("numero");
-            else
-                strNumero = "";
+                if (objJSON.has("numero") && (objJSON.getString("numero") != "null"))
+                    strNumero = objJSON.getString("numero");
+                else
+                    strNumero = "";
 
-            if (objJSON.has("bairro") && (objJSON.getString("bairro") != "null"))
-                strBairro = objJSON.getString("bairro");
-            else
-                strBairro = "";
+                if (objJSON.has("bairro") && (objJSON.getString("bairro") != "null"))
+                    strBairro = objJSON.getString("bairro");
+                else
+                    strBairro = "";
 
-            if (objJSON.has("cidade") && (objJSON.getString("cidade") != "null"))
-                strCidade = objJSON.getString("cidade");
-            else
-                strCidade = "";
+                if (objJSON.has("cidade") && (objJSON.getString("cidade") != "null"))
+                    strCidade = objJSON.getString("cidade");
+                else
+                    strCidade = "";
 
-            if (objJSON.has("uf") && (objJSON.getString("uf") != "null"))
-                strUf = objJSON.getString("uf");
-            else
-                strUf = "";
+                if (objJSON.has("uf") && (objJSON.getString("uf") != "null"))
+                    strUf = objJSON.getString("uf");
+                else
+                    strUf = "";
 
-            if (objJSON.has("cep") && (objJSON.getString("cep") != "null"))
-                strCep = objJSON.getString("cep");
+                if (objJSON.has("cep") && (objJSON.getString("cep") != "null"))
+                    strCep = objJSON.getString("cep");
+                else
+                    strCep = "";
+
+            }
             else
-                strCep = "";
+                strLogradouro = "Não informado";
+
 
         }
         catch(JSONException err) {
-            err.getStackTrace();
-        }
+            err.getStackTrace();        }
     }
 
 }
