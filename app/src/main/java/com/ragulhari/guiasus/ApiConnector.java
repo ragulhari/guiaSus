@@ -20,9 +20,9 @@ public class ApiConnector extends AsyncTask<String, Void, String> {
 
     private String urlDominio;
 
-    public ApiConnector()
+    public ApiConnector(String strDominio)
     {
-        this.urlDominio = "http://mobile-aceite.tcu.gov.br/mapa-da-saude/";
+        this.urlDominio = strDominio;
     }
 
     @Override
@@ -31,9 +31,11 @@ public class ApiConnector extends AsyncTask<String, Void, String> {
         String total = null;
         URL url;
 
+        HttpURLConnection objConnection;
+
         try {
             url = new URL(this.urlDominio + urls[0]);
-            HttpURLConnection objConnection = (HttpURLConnection) url.openConnection();
+            objConnection = (HttpURLConnection) url.openConnection();
             int responseCode = objConnection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK)
             {
@@ -48,6 +50,7 @@ public class ApiConnector extends AsyncTask<String, Void, String> {
                 }
             }
 
+            objConnection.disconnect();
         }
         catch (Exception err){
             System.out.println(err.getStackTrace());

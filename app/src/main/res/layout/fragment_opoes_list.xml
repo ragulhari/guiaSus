@@ -1,20 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout android:layout_height="fill_parent"
+<RelativeLayout android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent" android:background="@color/white">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:text="Opções de refinamento da busca" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:text="Distância da busca" />
     <Spinner
-        android:id="@+id/planets_spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_uf"
+        android:layout_weight="1" />
 
-</LinearLayout>
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_cidade"
+        android:layout_weight="1"
+        android:layout_below="@id/list_uf"/>
+
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apenas estabelecimentos com vinculo ao SUS"
+        android:id="@+id/checkBoxSus"
+        android:checked="true"
+        android:layout_below="@+id/list_cidade"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Locais com atendimento a urgência"
+
+        android:checked="true"
+        android:id="@+id/checkBoxUrgencia"
+        android:layout_below="@id/checkBoxSus"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Locais com obstetra"
+        android:checked="true"
+
+        android:id="@+id/checkBoxObstetra"
+        android:layout_below="@id/checkBoxUrgencia"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+
+        android:text="Locais com atendimento neo natal"
+        android:id="@+id/checkBoxNeoNatal"
+        android:layout_below="@id/checkBoxObstetra"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSubmit_Search"
+        android:layout_below="@id/checkBoxNeoNatal"
+        android:text="Buscar"
+        />
+
+</RelativeLayout>
 

@@ -84,12 +84,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         Button btnOptionsButton = (Button)findViewById(R.id.btn_options_map);
+
         btnOptionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("requestedBy", "MapsActivity");
+
+                OpcoesFragment fragobj = new OpcoesFragment();
+                fragobj.setArguments(bundle);
+
                 final FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.map, new OpcoesFragment()).addToBackStack("map")
+                        .replace(R.id.map, fragobj).addToBackStack("map")
                         .commit();
             }
         });
@@ -204,7 +211,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void getAllPlacesFromLocation(double latitude, double longitude) {
         String response;
 
-        ApiConnector objConector = new ApiConnector();
+        ApiConnector objConector = new ApiConnector("http://mobile-aceite.tcu.gov.br/mapa-da-saude/");
         int intSearchRay = 50;
 
         String strUrl = "rest/estabelecimentos/latitude/" + Double.toString(latitude) + "/longitude/" + Double.toString(longitude) + "/raio/" + Integer.toString(intSearchRay);

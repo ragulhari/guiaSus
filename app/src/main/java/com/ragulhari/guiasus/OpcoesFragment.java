@@ -6,8 +6,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Spinner;
 
 import com.ragulhari.guiasus.listObjects.*;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -15,13 +28,20 @@ import com.ragulhari.guiasus.listObjects.*;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class OpcoesFragment extends Fragment {
+public class OpcoesFragment extends Fragment implements OnItemSelectedListener {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private static final String DEVMEDIA_KEY = "92I398TG6";
+
+    private String[] arrListaUFs = null;
+
+    private String strRequestedBy = "";
+
+    private boolean isReady = false;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -40,15 +60,88 @@ public class OpcoesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments().containsKey("requestedBy"))
+        {
+            strRequestedBy = getArguments().getString("requestedBy");
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_opoes_list, container, false);
+
+
+        if (strRequestedBy != "MapsActivity") {
+            arrListaUFs = BuscaUFs();
+
+            Spinner objUF = (Spinner) view.findViewById(R.id.list_uf);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item, arrListaUFs);
+            objUF.setAdapter(adapter);
+            objUF.setOnItemSelectedListener(this);
+        } else {
+
+            Spinner objUF = (Spinner) view.findViewById(R.id.list_uf);
+            objUF.setVisibility(View.GONE);
+            Spinner objCidades = (Spinner) view.findViewById(R.id.list_cidade);
+            objCidades.setVisibility(View.GONE);
+
+        }
+
+        Button btnSubmit = (Button) view.findViewById(R.id.btnSubmit_Search);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                findLocations(view);
+            }
+        });
+
         return view;
     }
 
+
+    public void findLocations(View v)
+    {
+        String strQuery = "";
+
+        Spinner objUF = (Spinner) this.getView().findViewById(R.id.list_uf);
+        Spinner objCidades = (Spinner) this.getView().findViewById(R.id.list_cidade);
+        CheckBox chkSus = (CheckBox) this.getView().findViewById(R.id.checkBoxSus);
+        CheckBox chkUrgencia = (CheckBox) this.getView().findViewById(R.id.checkBoxUrgencia);
+        CheckBox chkObstetra = (CheckBox) this.getView().findViewById(R.id.checkBoxObstetra);
+        CheckBox chkNeoNatal = (CheckBox) this.getView().findViewById(R.id.checkBoxNeoNatal);
+
+        if (objUF.getSelectedItemId() > 0)
+        {
+            strQuery += "&UF=" + objUF.getSelectedItem().toString();
+        }
+
+        if (objCidades.getSelectedItemId() > 0)
+        {
+            strQuery += "&Cidades=" + objCidades.getSelectedItem().toString();
+        }
+
+        if (chkSus.isChecked())
+        {
+            strQuery += "&Sus=";
+        }
+
+        if (chkUrgencia.isChecked())
+        {
+            strQuery += "&Urgencia=";
+        }
+        if (chkObstetra.isChecked())
+        {
+            strQuery += "&Obstetra=";
+        }
+        if (chkNeoNatal.isChecked())
+        {
+            strQuery += "&NeoNatal=";
+        }
+
+
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -72,6 +165,137 @@ public class OpcoesFragment extends Fragment {
 
 
      */
+
+
+
+    public String[] BuscaUFs()
+    {
+        String response;
+        List<String> list = null;
+
+        ApiConnector objConector = new ApiConnector("http://www.devmedia.com.br/api/estadoscidades/service/");
+
+        String strUrl = "estados/?formato=json&chave=" + DEVMEDIA_KEY;
+
+        try {
+            response = objConector.execute(strUrl).get();
+        }
+        catch(Exception err)
+        {
+            response = null;
+        }
+
+        try {
+            if (response != null) {
+                JSONObject objJSON = new JSONObject(response);
+
+                if (objJSON.has("estados")) {
+
+                    if (objJSON.getJSONObject("estados").has("uf")) {
+
+                        JSONArray objArrayUF = objJSON.getJSONObject("estados").getJSONArray("uf");
+                        list = new ArrayList<>();
+                        list.add("Selecione");
+                        for (int i = 0; i < objArrayUF.length(); i++) {
+                            list.add(objArrayUF.get(i).toString());
+                        }
+                    }
+                }
+            }
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return list.toArray(new String[0]);
+    }
+
+    public String[] BuscaCidades(String strUF)
+    {
+        String response;
+        List<String> list = null;
+
+        ApiConnector objConector = new ApiConnector("http://www.devmedia.com.br/api/estadoscidades/service/");
+
+        String strUrl = "cidades/?formato=json&chave=" + DEVMEDIA_KEY + "&uf=" + strUF;
+
+        try {
+            response = objConector.execute(strUrl).get();
+        }
+        catch(Exception err)
+        {
+            response = null;
+        }
+            Spinner objCidades = (Spinner) this.getView().findViewById(R.id.list_cidade);
+
+        try {
+            if ((response != null) && !response.contains("falha ")) {
+                JSONObject objJSON = new JSONObject(response);
+
+                    if (objJSON.has("municipios")) {
+
+                        if (objJSON.getJSONObject("municipios").has("cidade")) {
+
+                            JSONArray objArrayUF = objJSON.getJSONObject("municipios").getJSONArray("cidade");
+                            list = new ArrayList<>();
+                            list.add("Selecione");
+                            for (int i = 0; i < objArrayUF.length(); i++) {
+                                list.add(objArrayUF.get(i).toString());
+                        }
+                    }
+                }
+                return list.toArray(new String[0]);
+            }
+
+
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View v, int i, long l) {
+        String[] strListaCidades = null;
+
+        if (arrListaUFs != null)
+        {
+            Spinner objCidades = (Spinner) this.getView().findViewById(R.id.list_cidade);
+            ArrayAdapter<String> adapter;
+
+            if (i > 0) {
+                strListaCidades = BuscaCidades(arrListaUFs[i]);
+
+                if (strListaCidades == null)
+                {
+                    ArrayList<String> ar = new ArrayList<>();
+                    ar.add("Selecione");
+                    strListaCidades = ar.toArray(new String[0]);
+                }
+            }
+            else
+            {
+                ArrayList<String> ar = new ArrayList<>();
+                ar.add("Selecione");
+                strListaCidades = ar.toArray(new String[0]);
+            }
+
+            adapter = new ArrayAdapter<>(this.getContext(),android.R.layout.simple_spinner_item,strListaCidades);
+            objCidades.setAdapter(adapter);
+
+        }
+
+        isReady = true;
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(placeListObject item);

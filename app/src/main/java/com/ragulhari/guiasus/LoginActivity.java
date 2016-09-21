@@ -97,6 +97,13 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.O
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d("SignInActivity", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
+
+//            Intent intent = new Intent(this, OnlyListActivity.class);
+//            GoogleSignInAccount acct = result.getSignInAccount();
+//            intent.putExtra("account",acct.getEmail());
+//            startActivity(intent);
+
+            //TODO: Voltar à visão do mapa após terminar a activity de lista
             Intent intent = new Intent(this, MapsActivity.class);
             GoogleSignInAccount acct = result.getSignInAccount();
             intent.putExtra("account",acct.getEmail());
