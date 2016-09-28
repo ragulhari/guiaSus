@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:text="Apenas estabelecimentos com vinculo ao SUS"
         android:id="@+id/checkBoxSus"
-        android:checked="true"
+        android:checked="false"
         android:layout_below="@+id/list_cidade"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:text="Locais com atendimento a urgência"
 
-        android:checked="true"
+        android:checked="false"
         android:id="@+id/checkBoxUrgencia"
         android:layout_below="@id/checkBoxSus"
         android:layout_alignParentLeft="true"
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Locais com obstetra"
-        android:checked="true"
+        android:checked="false"
 
         android:id="@+id/checkBoxObstetra"
         android:layout_below="@id/checkBoxUrgencia"
@@ -53,7 +53,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checked="true"
+        android:checked="false"
 
         android:text="Locais com atendimento neo natal"
         android:id="@+id/checkBoxNeoNatal"

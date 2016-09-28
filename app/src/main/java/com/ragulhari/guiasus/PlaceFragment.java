@@ -15,6 +15,9 @@ import com.ragulhari.guiasus.listObjects.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A fragment representing a list of Items.
@@ -34,6 +37,8 @@ public class PlaceFragment extends Fragment {
     private String strQueryResponse;
     private JSONArray objJSONArray;
     private placeListObject objPlaceListObject;
+    public List<placeListObjectItem> objListaMontagem = new ArrayList<>();
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -56,13 +61,15 @@ public class PlaceFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        objPlaceListObject = new placeListObject();
+
         if (getArguments() != null) {
             if (getArguments().containsKey("queryResponse")){
                 strQueryResponse = getArguments().getString("queryResponse");
                 try {
                     placeListObject objPlaceListObject = new placeListObject();
                     objJSONArray = new JSONArray(strQueryResponse);
-                    objPlaceListObject.createArray(objJSONArray);
+                    objListaMontagem = objPlaceListObject.createExternalArray(objJSONArray);
 
                 } catch (JSONException err){
                     err.getStackTrace();
@@ -88,7 +95,7 @@ public class PlaceFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyplaceRecyclerViewAdapter(objPlaceListObject.objListPlaces, mListener));
+            recyclerView.setAdapter(new MyplaceRecyclerViewAdapter(objListaMontagem, mListener));
         }
         return view;
     }

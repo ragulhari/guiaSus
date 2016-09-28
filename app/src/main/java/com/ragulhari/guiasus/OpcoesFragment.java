@@ -1,8 +1,10 @@
 package com.ragulhari.guiasus;
 
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,9 @@ public class OpcoesFragment extends Fragment implements OnItemSelectedListener {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private static final String DEVMEDIA_KEY = "92I398TG6";
+    private double dLatitudeAtual = 0;
+    private double dLongitudeAtual = 0;
+    private String strResponseQuery;
 
     private String[] arrListaUFs = null;
 
@@ -62,9 +67,12 @@ public class OpcoesFragment extends Fragment implements OnItemSelectedListener {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey("requestedBy"))
-        {
             strRequestedBy = getArguments().getString("requestedBy");
-        }
+        if (getArguments().containsKey("latitudeAtual"))
+            dLatitudeAtual = getArguments().getDouble("latitudeAtual");
+        if (getArguments().containsKey("longitudeAtual"))
+            dLongitudeAtual = getArguments().getDouble("longitudeAtual");
+
     }
 
     @Override
@@ -104,6 +112,9 @@ public class OpcoesFragment extends Fragment implements OnItemSelectedListener {
     public void findLocations(View v)
     {
         String strQuery = "";
+        Locations objLocation = new Locations();
+        placeListObject objPlacesList = null;
+
 
         Spinner objUF = (Spinner) this.getView().findViewById(R.id.list_uf);
         Spinner objCidades = (Spinner) this.getView().findViewById(R.id.list_cidade);
@@ -112,33 +123,81 @@ public class OpcoesFragment extends Fragment implements OnItemSelectedListener {
         CheckBox chkObstetra = (CheckBox) this.getView().findViewById(R.id.checkBoxObstetra);
         CheckBox chkNeoNatal = (CheckBox) this.getView().findViewById(R.id.checkBoxNeoNatal);
 
-        if (objUF.getSelectedItemId() > 0)
+        if (strRequestedBy == "MapsActivity")
+            strResponseQuery = objLocation.getLocationsByCoordinates("http://mobile-aceite.tcu.gov.br/mapa-da-saude/", dLatitudeAtual, dLongitudeAtual, 50);
+        else
+            strResponseQuery = objLocation.getLocationsByFilters("http://mobile-aceite.tcu.gov.br/mapa-da-saude/", objUF.getSelectedItem().toString(), objCidades.getSelectedItem().toString());
+
+        String strFinalJSON = "";
+        placeListObject objNewPlacesList = null;
+
+        try {
+            objPlacesList = new placeListObject();
+            objNewPlacesList = new placeListObject();
+            objPlacesList.createArray(new JSONArray(strResponseQuery));
+
+            for (int i = 0 ; i < objPlacesList.objListPlaces.size() ; i++)
+            {
+                boolean blnRemove = false;
+                placeListObjectItem objTemp = objPlacesList.objListPlaces.get(i);
+
+                if ((chkUrgencia.isChecked() && objTemp.strAtendimentoUrgencia.equals("Não")) ||
+                        (!chkUrgencia.isChecked() && objTemp.strAtendimentoUrgencia.equals("Sim"))
+                        ){
+                    blnRemove = true;
+                }
+
+                if ((chkSus.isChecked() && objTemp.strVinculoSus.equals("Não")) ||
+                        (!chkSus.isChecked() && objTemp.strVinculoSus.equals("Sim"))){
+                    blnRemove = true;
+                }
+
+                if ((chkObstetra.isChecked() && objTemp.strObstetra.equals("Não")) ||
+                        (!chkObstetra.isChecked() && objTemp.strObstetra.equals("Sim"))){
+                    blnRemove = true;
+                }
+
+                if ((chkNeoNatal.isChecked() && objTemp.strNeoNatal.equals("Não")) ||
+                        (!chkNeoNatal.isChecked() && objTemp.strNeoNatal.equals("Sim"))){
+                    blnRemove = true;
+                }
+
+                if (!blnRemove){
+                    objNewPlacesList.objListPlaces.add(objTemp);
+                }
+            }
+
+
+        }
+        catch (JSONException err)
         {
-            strQuery += "&UF=" + objUF.getSelectedItem().toString();
+            err.getStackTrace();
         }
 
-        if (objCidades.getSelectedItemId() > 0)
+        strFinalJSON = "[";
+
+        if (objNewPlacesList != null)
         {
-            strQuery += "&Cidades=" + objCidades.getSelectedItem().toString();
+            for (int i = 0; i <objNewPlacesList.objListPlaces.size(); i++)
+            {
+                if (i > 0)
+                    strFinalJSON += ",";
+                strFinalJSON += objNewPlacesList.objListPlaces.get(i).convertToString();
+            }
         }
 
-        if (chkSus.isChecked())
-        {
-            strQuery += "&Sus=";
+        strFinalJSON += "]";
+
+        if (strRequestedBy == "MapsActivity") {
+            ((MapsActivity) getActivity()).strLastQueryResponse = strFinalJSON;
+            ((MapsActivity) getActivity()).renewLocations(objNewPlacesList);
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        }
+        else {
+            ((OnlyListActivity) getActivity()).strLastQueryResponseForList = strFinalJSON;
+            ((OnlyListActivity)getActivity()).renewLocations(objNewPlacesList);
         }
 
-        if (chkUrgencia.isChecked())
-        {
-            strQuery += "&Urgencia=";
-        }
-        if (chkObstetra.isChecked())
-        {
-            strQuery += "&Obstetra=";
-        }
-        if (chkNeoNatal.isChecked())
-        {
-            strQuery += "&NeoNatal=";
-        }
 
 
     }
@@ -146,6 +205,8 @@ public class OpcoesFragment extends Fragment implements OnItemSelectedListener {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+
     }
 
     @Override

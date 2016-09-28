@@ -33,7 +33,7 @@ import android.widget.Button;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
@@ -90,6 +90,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putString("requestedBy", "MapsActivity");
+                bundle.putDouble("latitudeAtual", latitudeAtual);
+                bundle.putDouble("longitudeAtual", longitudeAtual);
 
                 OpcoesFragment fragobj = new OpcoesFragment();
                 fragobj.setArguments(bundle);
@@ -123,6 +125,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_CONFIGURATION)
@@ -143,21 +147,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
             //TODO: REmover essa chamada, deixar apenas o IF abaixo
-            updateMarker(location);
+            updateMarker(0, 0);
 
             if (location == null) {
                 fusedLocationProviderApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
             }
             else
             {
-                updateMarker(location);
+                this.updateMarker(location.getLatitude(), location.getLongitude());
             }
         }
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        this.updateMarker(location);
+        if (location != null) {
+            this.updateMarker(location.getLatitude(), location.getLongitude());
+        }
+        else
+            this.updateMarker(0, 0);
     }
 
     @Override
@@ -185,6 +193,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    protected void renewLocations(placeListObject objListPlaces){
+        pointYourself(this.latitudeAtual, this.longitudeAtual);
+
+        for (int i = 0; i < objListPlaces.objListPlaces.size(); i++)
+        {
+            placeListObjectItem objTemp = objListPlaces.objListPlaces.get(i);
+
+            MarkerOptions objMarkerOptions = new MarkerOptions();
+            objMarkerOptions.title(objTemp.strNomeFantasia);
+            objMarkerOptions.snippet(objTemp.strTipoUnidade +" - " + objTemp.strTelefone);
+            //objMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            objMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.health_map_icon));
+            objMarkerOptions.position(new LatLng(Double.parseDouble(objTemp.latitude), Double.parseDouble(objTemp.longitude)));
+            mMap.addMarker(objMarkerOptions);
+
+        }
+
+    }
+
     protected void onStart() {
         mGoogleApiClient.connect();
         super.onStart();
@@ -208,89 +235,52 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onConnectionFailed(ConnectionResult obj) {
     }
 
-    private void getAllPlacesFromLocation(double latitude, double longitude) {
+    public void getAllPlacesFromLocation() {
         String response;
+        placeListObject objPlacesList;
 
-        ApiConnector objConector = new ApiConnector("http://mobile-aceite.tcu.gov.br/mapa-da-saude/");
-        int intSearchRay = 50;
+        Locations objLocation = new Locations();
+        response = objLocation.getLocationsByCoordinates("http://mobile-aceite.tcu.gov.br/mapa-da-saude/", this.latitudeAtual, this.longitudeAtual, 50);
 
-        String strUrl = "rest/estabelecimentos/latitude/" + Double.toString(latitude) + "/longitude/" + Double.toString(longitude) + "/raio/" + Integer.toString(intSearchRay);
-
-        try {
-            response = objConector.execute(strUrl).get();
-        }
-        catch(Exception err)
-        {
-            response = null;
-        }
 
         if (response != null) {
             try {
-                JSONArray objJSON = new JSONArray(response);
-                for (int i=0; i < objJSON.length(); i++)
-                {
-                    String tempTelefone;
-                    String tempNomeFantasia;
-                    String tempTipoUnidade;
+                objPlacesList = new placeListObject();
+                objPlacesList.createArray(new JSONArray(response));
+                renewLocations(objPlacesList);
 
-                    JSONObject objItem = objJSON.getJSONObject(i);
-                    MarkerOptions objMarkerOptions = new MarkerOptions();
-
-                    if (objItem.has("nomeFantasia"))
-                        tempNomeFantasia = objItem.getString("nomeFantasia");
-                    else
-                        tempNomeFantasia = "Sem nome cadastrado";
-
-                    if (objItem.has("tipoUnidade"))
-                        tempTipoUnidade = objItem.getString("tipoUnidade");
-                    else
-                        tempTipoUnidade = "N/A";
-
-                    if (objItem.has("telefone"))
-                        tempTelefone = objItem.getString("telefone");
-                    else
-                        tempTelefone = "Sem telefone";
-
-                    objMarkerOptions.title(tempNomeFantasia);
-                    objMarkerOptions.snippet(tempTipoUnidade +" - " + tempTelefone);
-                    //objMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                    objMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.health_map_icon));
-                    objMarkerOptions.position(new LatLng(objItem.getDouble("lat"), objItem.getDouble("long")));
-                    mMap.addMarker(objMarkerOptions);
-                }
-
-                this.strLastQueryResponse = response;
-
+            } catch (JSONException err){
+                err.printStackTrace();
             }
-            catch (JSONException err) {
-                err.getStackTrace();
-            }
-
         }
+
+        this.strLastQueryResponse = response;
+
     }
 
+    public void pointYourself(double latitudeAtual, double longitudeAtual)
+    {
+        mMap.clear();
 
-    private void updateMarker(Location mLastLocation) {
-
-        if (mLastLocation != null) {
-            latitudeAtual = mLastLocation.getLatitude();
-            longitudeAtual = mLastLocation.getLongitude();
-        }
-        else {
+        if ((latitudeAtual == 0) && (longitudeAtual == 0)) {
             /*TODO REMOVER - Para efeito de simulação apenas, se o resultado vier como 0, adotando local padrão*/
             latitudeAtual = -23.5865838;
             longitudeAtual = -46.6720745;
         }
 
+        this.latitudeAtual = latitudeAtual;
+        this.longitudeAtual = longitudeAtual;
 
         // Add a marker in Sydney and move the camera
-        LatLng  newCoordinates = new LatLng(latitudeAtual, longitudeAtual);
+        LatLng  newCoordinates = new LatLng(this.latitudeAtual, this.longitudeAtual);
         mMap.addMarker(new MarkerOptions().position(newCoordinates).title("Sua localização atual"));
         mMap.setMinZoomPreference(16);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(newCoordinates));
+    }
 
-        getAllPlacesFromLocation(latitudeAtual, longitudeAtual);
-
+    public void updateMarker(double latitudeAtual, double longitudeAtual) {
+        pointYourself(latitudeAtual, longitudeAtual);
+        getAllPlacesFromLocation();
     }
 
     @Override

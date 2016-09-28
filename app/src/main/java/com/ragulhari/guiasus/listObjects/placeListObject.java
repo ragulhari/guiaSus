@@ -12,11 +12,7 @@ import java.util.List;
  */
 public class placeListObject {
 
-    public static List<placeListObjectItem> objListPlaces = new ArrayList<placeListObjectItem>();
-
-    private static void addItem(placeListObjectItem item) {
-        objListPlaces.add(item);
-    }
+    public List<placeListObjectItem> objListPlaces = new ArrayList<placeListObjectItem>();
 
     private String strTelefone;
     private String strNomeFantasia;
@@ -37,7 +33,12 @@ public class placeListObject {
     private String strCidade;
     private String strUf;
     private String strCep;
+    private String latitude;
+    private String longitude;
 
+    public void addItem(placeListObjectItem item) {
+        objListPlaces.add(item);
+    }
 
     public void createArray(JSONArray objJSONPlaces) {
 
@@ -48,7 +49,7 @@ public class placeListObject {
 
                     placeListObjectItem obj = new placeListObjectItem(strNomeFantasia, strTipoUnidade,strTelefone,
                         strEsferaAdministrativa, strVinculoSus, strTurnoAtendimento, strLogradouro, strNumero, strBairro,
-                        strCidade, strUf, strCep, strAtendimentoUrgencia, strObstetra, strNeoNatal);
+                        strCidade, strUf, strCep, strAtendimentoUrgencia, strObstetra, strNeoNatal, latitude, longitude);
 
                 addItem(obj);
             }
@@ -56,6 +57,29 @@ public class placeListObject {
         catch(JSONException err){
             err.getStackTrace();
         }
+    }
+
+
+    public List<placeListObjectItem> createExternalArray(JSONArray objJSONPlaces) {
+
+        List<placeListObjectItem> objRetorno = new ArrayList<>();
+
+        try {
+            for (int i = 0; i < objJSONPlaces.length(); i++) {
+                JSONObject objItem = objJSONPlaces.getJSONObject(i);
+                validateArray(objItem);
+
+                objRetorno.add(new placeListObjectItem(strNomeFantasia, strTipoUnidade,strTelefone,
+                        strEsferaAdministrativa, strVinculoSus, strTurnoAtendimento, strLogradouro, strNumero, strBairro,
+                        strCidade, strUf, strCep, strAtendimentoUrgencia, strObstetra, strNeoNatal, latitude, longitude));
+            }
+        }
+        catch(JSONException err){
+            err.getStackTrace();
+            return null;
+        }
+
+        return objRetorno;
     }
 
 
@@ -135,6 +159,16 @@ public class placeListObject {
                     strCep = objJSON.getString("cep");
                 else
                     strCep = "";
+
+                if (objJSON.has("lat") && (objJSON.getString("lat") != "null"))
+                    latitude = objJSON.getString("lat");
+                else
+                    latitude = "0";
+
+                if (objJSON.has("long") && (objJSON.getString("long") != "null"))
+                    longitude = objJSON.getString("long");
+                else
+                    longitude = "0";
 
             }
             else
