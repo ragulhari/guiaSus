@@ -204,7 +204,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             objMarkerOptions.title(objTemp.strNomeFantasia);
             objMarkerOptions.snippet(objTemp.strTipoUnidade +" - " + objTemp.strTelefone);
             //objMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-            objMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.health_map_icon));
+            objMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable   .health_map_icon));
             objMarkerOptions.position(new LatLng(Double.parseDouble(objTemp.latitude), Double.parseDouble(objTemp.longitude)));
             mMap.addMarker(objMarkerOptions);
 
