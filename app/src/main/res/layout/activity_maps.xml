@@ -14,18 +14,21 @@
 
     <Button
         android:id="@+id/btn_options_map"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="right|bottom"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/configurations"
         android:layout_marginRight="11dp" />
 
     <Button
         android:id="@+id/btn_list"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="right|bottom"
-        android:layout_marginBottom="55dp"
-        android:layout_marginRight="121dp" />
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="81dp"
+        android:background="@drawable/list"
+        />
 
 </FrameLayout>

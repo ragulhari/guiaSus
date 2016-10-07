@@ -72,9 +72,9 @@ public class PlaceDetailedFragment extends Fragment {
         bairro_detail.setText(objItem.strBairro);
         logradouro_numero_detail.setText(objItem.strLogradouro + " - " + objItem.strNumero);
         cidade_uf_detail.setText(objItem.strCidade + " - " + objItem.strUf);
-        atendimento_urgencia_detail.setText("Tem atendimento de Urgência? - " + objItem.strAtendimentoUrgencia);
-        obstetra_detail.setText("Tem Obstetra? - " + objItem.strObstetra);
-        neonatal_detail.setText("Realiza exame Neo Natal? - " + objItem.strNeoNatal);
+        atendimento_urgencia_detail.setText("ATENDIMENTO DE URGENCIA? - " + objItem.strAtendimentoUrgencia);
+        obstetra_detail.setText("OBSTETRA? - " + objItem.strObstetra);
+        neonatal_detail.setText("NEO NATAL? - " + objItem.strNeoNatal);
 
     }
 

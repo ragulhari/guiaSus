@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">guiaSus</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="title_activity_login">Login</string>
+    <string name="app_name">Busca Saúde</string>
+    <string name="title_activity_maps">Busca Saúde</string>
+    <string name="title_activity_login">Busca Saúde</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -18,7 +18,12 @@
     <string name="title_activity_places_list">PlacesListActivity</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_list">ListActivity</string>
+    <string name="endereco">ENDEREÇO</string>
+    <string name="localinfo">Informações do local</string>
+    <string name="availableservicestitle">SERVIÇOS DISPONÍVEIS</string>
+    <string name="about">Sobre o aplicativo Busca Saúde</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

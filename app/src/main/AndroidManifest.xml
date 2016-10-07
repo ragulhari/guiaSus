@@ -17,7 +17,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -38,7 +38,8 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/title_activity_maps"
+            android:theme="@android:style/Theme.Material.Light"/>
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
@@ -59,7 +60,7 @@
         <activity
             android:name=".dummy.PlacesListActivity"
             android:label="@string/title_activity_places_list"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@android:style/Theme.Material.Light"/>
         <activity android:name=".OnlyListActivity" />
     </application>
 

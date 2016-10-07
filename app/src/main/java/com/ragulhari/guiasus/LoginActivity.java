@@ -5,9 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -27,7 +29,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends FragmentActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class LoginActivity extends FragmentActivity implements GoogleApiClient.OnConnectionFailedListener, AboutFragment.OnFragmentInteractionListener {
 
     //Signin constant to check the activity result
     private int RC_SIGN_IN = 9001;
@@ -51,6 +53,20 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.O
                 .requestEmail()
                 .build();
 
+        TextView objAbout = (TextView)findViewById(R.id.about_text);
+        objAbout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AboutFragment fragobj = new AboutFragment();
+
+                final FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.loginFragment, fragobj).addToBackStack("about")
+                        .commit();
+
+            }
+        });
+
         // Build a GoogleApiClient with access to the Google Sign-In API and the
         // options specified by gso.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -59,7 +75,7 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.O
                 .build();
 
         SignInButton mSignInButton = (SignInButton)findViewById(R.id.sign_in_button);
-        mSignInButton.setSize(SignInButton.SIZE_STANDARD);
+        mSignInButton.setSize(SignInButton.SIZE_WIDE);
         mSignInButton.setScopes(gso.getScopeArray());
         mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -98,13 +114,12 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.O
         Log.d("SignInActivity", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
 
-
+            //TODO: Voltar à visão do mapa após terminar a activity de lista
             Intent intent = new Intent(this, OnlyListActivity.class);
             GoogleSignInAccount acct = result.getSignInAccount();
             intent.putExtra("account",acct.getEmail());
             startActivity(intent);
 
-            //TODO: Voltar à visão do mapa após terminar a activity de lista
 //            Intent intent = new Intent(this, MapsActivity.class);
 //            GoogleSignInAccount acct = result.getSignInAccount();
 //            intent.putExtra("account",acct.getEmail());
@@ -136,6 +151,11 @@ public class LoginActivity extends FragmentActivity implements GoogleApiClient.O
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }

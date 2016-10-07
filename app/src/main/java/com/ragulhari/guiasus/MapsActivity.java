@@ -2,6 +2,8 @@ package com.ragulhari.guiasus;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
@@ -28,8 +30,11 @@ import com.ragulhari.guiasus.listObjects.placeListObject;
 import com.ragulhari.guiasus.listObjects.placeListObjectItem;
 
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -149,13 +154,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //TODO: REmover essa chamada, deixar apenas o IF abaixo
             updateMarker(0, 0);
 
-            if (location == null) {
-                fusedLocationProviderApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
-            }
-            else
-            {
-                this.updateMarker(location.getLatitude(), location.getLongitude());
-            }
+            //TODO: Descomentar essa linha
+//            if (location == null) {
+//                fusedLocationProviderApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
+//            }
+//            else
+//            {
+//                this.updateMarker(location.getLatitude(), location.getLongitude());
+//            }
         }
     }
 
@@ -202,11 +208,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             MarkerOptions objMarkerOptions = new MarkerOptions();
             objMarkerOptions.title(objTemp.strNomeFantasia);
-            objMarkerOptions.snippet(objTemp.strTipoUnidade +" - " + objTemp.strTelefone);
-            //objMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            objMarkerOptions.snippet(objTemp.strTipoUnidade + '\n' + objTemp.strTelefone);
             objMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable   .health_map_icon));
             objMarkerOptions.position(new LatLng(Double.parseDouble(objTemp.latitude), Double.parseDouble(objTemp.longitude)));
             mMap.addMarker(objMarkerOptions);
+            mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+                @Override
+                public View getInfoWindow(Marker arg0) {
+                    return null;
+                }
+
+                @Override
+                public View getInfoContents(Marker marker) {
+
+                    LinearLayout info = new LinearLayout(getBaseContext());
+                    info.setOrientation(LinearLayout.VERTICAL);
+
+                    TextView title = new TextView(getBaseContext());
+                    title.setTextColor(Color.RED);
+                    title.setGravity(Gravity.LEFT);
+                    title.setTypeface(null, Typeface.BOLD);
+                    title.setText(marker.getTitle());
+
+                    TextView snippet = new TextView(getBaseContext());
+                    snippet.setTextColor(Color.BLACK);
+                    snippet.setText(marker.getSnippet());
+
+                    info.addView(title);
+                    info.addView(snippet);
+                    info.setDividerPadding(4);
+
+                    return info;
+                }
+            });
 
         }
 

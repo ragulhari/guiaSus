@@ -3,14 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:theme="@android:style/Theme.Material.Light"
     tools:context="com.ragulhari.guiasus.PlaceDetailedFragment">
 
     <TextView
         android:id="@+id/title_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/localinfo"
         android:layout_marginTop="20dp"
-        android:text="Informações do local"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
         android:textStyle="bold"/>
 
 
@@ -20,12 +23,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_below="@id/title_detail"
+        android:textSize="16sp"
+        android:textColor="@color/black"
         android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tipoUnidade_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:paddingStart="20dp"
         android:layout_below="@id/nomeFantasia_detail"
         />
 
@@ -34,21 +42,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tipoUnidade_detail"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:paddingStart="20dp"
         />
 
     <TextView
         android:id="@+id/title_endereco"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Endereço:"
+        android:text="@string/endereco"
         android:layout_below="@id/telefone_detail"
-        android:textStyle="bold"
-        />
+        android:paddingTop="20dp"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"        />
 
     <TextView
         android:id="@+id/logradouro_numero_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:paddingStart="20dp"
         android:layout_below="@id/title_endereco"
         />
 
@@ -57,6 +73,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/logradouro_numero_detail"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:paddingStart="20dp"
         />
 
     <TextView
@@ -64,22 +83,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/bairro_detail"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:paddingStart="20dp"
         />
 
     <TextView
         android:id="@+id/servicos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sobre os serviços disponíveis:"
+        android:text="@string/availableservicestitle"
         android:layout_below="@id/cidade_uf_detail"
-        android:textStyle="bold"
-        />
+        android:paddingTop="20dp"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/atendimento_urgencia_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/servicos"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:paddingStart="20dp"
         />
 
     <TextView
@@ -87,6 +114,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/atendimento_urgencia_detail"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:paddingStart="20dp"
         />
 
     <TextView
@@ -94,5 +124,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/obstetra_detail"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:paddingStart="20dp"
         />
 </RelativeLayout>
