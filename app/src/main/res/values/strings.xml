@@ -23,7 +23,16 @@
     <string name="availableservicestitle">SERVIÇOS DISPONÍVEIS</string>
     <string name="about">Sobre o aplicativo Busca Saúde</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--Tela "Sobre"-->
+    <string name="title_about">Sobre o Busca Saúde</string>
+    <string name="text_about">O aplicativo <b>Busca Saúde</b> tem por objetivo entregar ao cidadão informações diretamente do <b>Cadastro Nacional de Estabelecimentos de Saúde (CNES)</b> do Governo Federal, dando ao mesmo possa um guia de estabelecimentos de saúde próximos à sua localização atual.\n\nO aplicativo funciona em dois modos, o modo <b>MAPA</b> que apresenta os locais próximos ao usuário no momento (desde que o usuário libere as permissões de acesso) e o modo <b>LISTA</b> que apresenta os estabelecimentos em uma lista, para aqueles que não conseguirem usar o mapa (ou preferirem essa forma de visualização). O cidadão também pode fazer buscas por alguns filtros específicos disponibilizados no app.\n\nO aplicativo foi construído para participar do <b><i>Desafio de Aplicativos Cívicos, do Tribunal de Contas da União (TCU)</i></b>.\n\nOs dados exibidos são extraídos diretamente da base do CNES e este aplicativo não se responsabiliza por inconsistências na informação, porém será disponibilizado um recurso para comunicar pelo app informações inconsistentes.</string>
+
+    <!--Tela de Opções de busca-->
+    <string name="search_title">Configure sua busca</string>
+    <string name="search_sus">Apenas estabelecimentos com vinculo ao SUS</string>
+    <string name="search_urgencia">Apenas locais com atendimento a urgência</string>
+    <string name="search_obstetra">Apenas locais com obstetra</string>
+    <string name="search_neonatal">Apenas locais com atendimento neo natal</string>
+    <string name="search_submit">Buscar</string>
 
 </resources>

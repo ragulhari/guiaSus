@@ -97,6 +97,8 @@ public class OpcoesFragment extends Fragment implements OnItemSelectedListener {
 
         }
 
+
+
         Button btnSubmit = (Button) view.findViewById(R.id.btnSubmit_Search);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override

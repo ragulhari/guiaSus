@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Configure sua busca"
+        android:text="@string/search_title"
         android:layout_marginTop="20dp"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"
@@ -40,47 +40,40 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Apenas estabelecimentos com vinculo ao SUS"
+        android:text="@string/search_sus"
         android:id="@+id/checkBoxSus"
         android:checked="false"
         android:textSize="16sp"
         android:textColor="@color/black"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/list_cidade"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Locais com atendimento a urgência"
-
+        android:text="@string/search_urgencia"
         android:checked="false"
         android:id="@+id/checkBoxUrgencia"
         android:layout_below="@id/checkBoxSus"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Locais com obstetra"
+        android:text="@string/search_obstetra"
         android:checked="false"
-
         android:id="@+id/checkBoxObstetra"
         android:layout_below="@id/checkBoxUrgencia"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="false"
-
-        android:text="Locais com atendimento neo natal"
+        android:text="@string/search_neonatal"
         android:id="@+id/checkBoxNeoNatal"
         android:layout_below="@id/checkBoxObstetra"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Button
@@ -88,7 +81,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/btnSubmit_Search"
         android:layout_below="@id/checkBoxNeoNatal"
-        android:text="Buscar"
+        android:text="@string/search_submit"
         />
 
 </RelativeLayout>
