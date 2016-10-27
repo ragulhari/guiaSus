@@ -3,7 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context="com.ragulhari.guiasus.OnlyListActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.ragulhari.guiaSus.OnlyListActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar_list"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
 
     <LinearLayout
         android:layout_width="wrap_content"

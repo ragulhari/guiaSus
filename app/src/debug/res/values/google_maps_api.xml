@@ -4,10 +4,10 @@
 
     To get one, follow this link, follow the directions and press "Create" at the end:
 
-    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=C7:24:07:0E:D1:60:95:C7:3C:61:11:D3:98:48:5D:F3:27:FF:6C:61%3Bcom.ragulhari.guiasus
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=C7:24:07:0E:D1:60:95:C7:3C:61:11:D3:98:48:5D:F3:27:FF:6C:61%3Bcom.ragulhari.guiaSus
 
     You can also add your credentials to an existing key, using this line:
-    C7:24:07:0E:D1:60:95:C7:3C:61:11:D3:98:48:5D:F3:27:FF:6C:61;com.ragulhari.guiasus
+    C7:24:07:0E:D1:60:95:C7:3C:61:11:D3:98:48:5D:F3:27:FF:6C:61;com.ragulhari.guiaSus
 
     Alternatively, follow the directions here:
     https://developers.google.com/maps/documentation/android/start#get-key

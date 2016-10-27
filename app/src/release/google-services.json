@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "916970814029",
+    "project_id": "guiapublicosus"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:916970814029:android:353c142d303e5e7d",
+        "android_client_info": {
+          "package_name": "com.ragulhari.guiaSus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "916970814029-i9ssal9o6sv47gvf8407pbkv9isnf48o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ragulhari.guiaSus",
+            "certificate_hash": "C724070ED16095C73C6111D398485DF327FF6C61"
+          }
+        },
+        {
+          "client_id": "916970814029-i9ssal9o6sv47gvf8407pbkv9isnf48o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn7R6-_NEGjlU6MW_VINumECGBx-hQkCE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

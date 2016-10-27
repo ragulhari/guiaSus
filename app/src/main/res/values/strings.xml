@@ -3,29 +3,15 @@
     <string name="title_activity_maps">Busca Saúde</string>
     <string name="title_activity_login">Busca Saúde</string>
 
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="title_activity_places_list">PlacesListActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_list">ListActivity</string>
     <string name="endereco">ENDEREÇO</string>
-    <string name="localinfo">Informações do local</string>
-    <string name="availableservicestitle">SERVIÇOS DISPONÍVEIS</string>
+    <string name="availableservicestitle">SERVIÇOS ESPECIAIS DISPONÍVEIS</string>
     <string name="about">Sobre o aplicativo Busca Saúde</string>
+    <string name="action_list">Ver lista</string>
+    <string name="search_list">Buscar</string>
 
     <!--Tela "Sobre"-->
     <string name="title_about">Sobre o Busca Saúde</string>
-    <string name="text_about">O aplicativo <b>Busca Saúde</b> tem por objetivo entregar ao cidadão informações diretamente do <b>Cadastro Nacional de Estabelecimentos de Saúde (CNES)</b> do Governo Federal, dando ao mesmo possa um guia de estabelecimentos de saúde próximos à sua localização atual.\n\nO aplicativo funciona em dois modos, o modo <b>MAPA</b> que apresenta os locais próximos ao usuário no momento (desde que o usuário libere as permissões de acesso) e o modo <b>LISTA</b> que apresenta os estabelecimentos em uma lista, para aqueles que não conseguirem usar o mapa (ou preferirem essa forma de visualização). O cidadão também pode fazer buscas por alguns filtros específicos disponibilizados no app.\n\nO aplicativo foi construído para participar do <b><i>Desafio de Aplicativos Cívicos, do Tribunal de Contas da União (TCU)</i></b>.\n\nOs dados exibidos são extraídos diretamente da base do CNES e este aplicativo não se responsabiliza por inconsistências na informação, porém será disponibilizado um recurso para comunicar pelo app informações inconsistentes.</string>
+    <string name="text_about">O aplicativo <b>Busca Saúde</b> tem por objetivo entregar ao cidadão informações diretamente do <b>Cadastro Nacional de Estabelecimentos de Saúde (CNES)</b> do Governo Federal, dando ao mesmo possa um guia de estabelecimentos de saúde próximos à sua localização atual.\n\nO aplicativo funciona em dois modos, o modo <b>MAPA</b> que apresenta os locais próximos ao usuário no momento (desde que o usuário libere as permissões de acesso) e o modo <b>LISTA</b> que apresenta os estabelecimentos em uma lista, para aqueles que não conseguirem usar o mapa (ou preferirem essa forma de visualização). O cidadão também pode fazer buscas por alguns filtros específicos disponibilizados no app.\n\nO aplicativo foi construído para participar do <b><i>DESAFIO DE APLICATIVOS CÍVICOS: CONTROLE SOCIAL DIGITAL-2016</i></b>, do Tribunal de Contas da União (TCU).\n\nOs dados exibidos são extraídos diretamente da base do CNES e este aplicativo não se responsabiliza por inconsistências na informação.</string>
 
     <!--Tela de Opções de busca-->
     <string name="search_title">Configure sua busca</string>
@@ -34,5 +20,20 @@
     <string name="search_obstetra">Apenas locais com obstetra</string>
     <string name="search_neonatal">Apenas locais com atendimento neo natal</string>
     <string name="search_submit">Buscar</string>
+    <string name="app_logo_description">Logo do app BuscaSaúde</string>
+    <string name="desafio_text">DESAFIO DE APLICATIVOS CÍVICOS: CONTROLE SOCIAL DIGITAL-2016</string>
+    <string name="tcu_marca">Imagem da marca do TCU</string>
+    <string name="logo_desafio_civico">Imagem do logo do desafio cívico</string>
+    <string name="tcu_logo">Imagem do logo do TCU</string>
+    <string name="feedback_title_section">JÁ ESTEVE NESTE ESTABELECIMENTO? AVALIE!</string>
+    <string name="feedback_detail">Caso queira detalhar a experiência, preencha este campo</string>
+    <string name="submit_feedback">Enviar Avaliação</string>
+    <string name="sending">Enviando...</string>
+    <string name="neonatal_title">NEO NATAL? -&#160;</string>
+    <string name="obstetra_title">OBSTETRA? -&#160;</string>
+    <string name="urgency_title">ATENDIMENTO DE URGENCIA? -&#160;</string>
+    <string name="separator">&#160;-&#160;</string>
+
+
 
 </resources>

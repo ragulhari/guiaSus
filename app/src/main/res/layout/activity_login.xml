@@ -10,7 +10,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.ragulhari.guiasus.LoginActivity">
+    tools:context="com.ragulhari.guiaSus.LoginActivity">
 
 
     <ImageView
@@ -19,6 +19,7 @@
         android:id="@+id/imageLogo" 
         android:src="@drawable/launcher_logo"
         android:layout_marginBottom="60dp"
+        android:contentDescription="@string/app_logo_description"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -32,16 +33,39 @@
         android:layout_centerInParent="true"
         />
 
+    <ProgressBar
+        android:id="@+id/progressLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sign_in_button"
+        android:layout_centerHorizontal="true"
+
+        android:foregroundTint="@color/white"
+        android:visibility="gone"
+        android:indeterminate="true" />
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/about_text"
         android:textColor="@color/white"
         android:text="@string/about"
-        android:layout_below="@+id/sign_in_button"
+        android:layout_below="@+id/progressLogin"
+        android:textSize="16sp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentRight="false"
         android:layout_marginTop="40dp"
         android:gravity="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/white"
+        android:text="@string/desafio_text"
+        android:id="@+id/textView"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

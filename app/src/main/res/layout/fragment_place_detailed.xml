@@ -1,131 +1,177 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollAbout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:theme="@android:style/Theme.Material.Light"
-    tools:context="com.ragulhari.guiasus.PlaceDetailedFragment">
+    android:fillViewport="true"
+    android:scrollbars="none" >
 
-    <TextView
-        android:id="@+id/title_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/localinfo"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:theme="@android:style/Theme.Material.Light"
+        tools:context="com.ragulhari.guiaSus.PlaceDetailedFragment">
+
+        <TextView
+            android:id="@+id/nomeFantasia_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tipoUnidade_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:paddingStart="20dp"
+            android:layout_below="@id/nomeFantasia_detail"
+            />
+
+        <TextView
+            android:id="@+id/telefone_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tipoUnidade_detail"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:paddingStart="20dp"
+            />
+
+        <TextView
+            android:id="@+id/turnoAtendimento_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/telefone_detail"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:paddingStart="20dp"
+            />
+
+        <TextView
+            android:id="@+id/title_endereco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/endereco"
+            android:layout_below="@id/turnoAtendimento_detail"
+            android:paddingTop="20dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"        />
+
+        <TextView
+            android:id="@+id/logradouro_numero_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:paddingStart="20dp"
+            android:layout_below="@id/title_endereco"
+            />
+
+        <TextView
+            android:id="@+id/bairro_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/logradouro_numero_detail"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:paddingStart="20dp"
+            />
+
+        <TextView
+            android:id="@+id/cidade_uf_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bairro_detail"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:paddingStart="20dp"
+            />
+
+        <TextView
+            android:id="@+id/servicos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/availableservicestitle"
+            android:layout_below="@id/cidade_uf_detail"
+            android:paddingTop="20dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/atendimento_urgencia_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/servicos"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:paddingStart="20dp"
+            />
+
+        <TextView
+            android:id="@+id/obstetra_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/atendimento_urgencia_detail"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:paddingStart="20dp"
+            />
+
+        <TextView
+            android:id="@+id/neonatal_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/obstetra_detail"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:paddingStart="20dp"
+            />
+
+        <TextView
+            android:id="@+id/rating_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/neonatal_detail"
+            android:textColor="@color/black"
+            android:paddingTop="20dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="@string/feedback_title_section"
+            />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingStars"
+            android:paddingStart="0dp"
+            android:numStars="5"
+            android:stepSize="1"
+            android:layout_below="@+id/rating_title" />
 
 
-    <TextView
-        android:id="@+id/nomeFantasia_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/title_detail"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rating_feedback"
+            android:layout_below="@+id/ratingStars"
+            android:lines="3"
+            android:maxLength="250"
+            android:hint="@string/feedback_detail" />
 
-    <TextView
-        android:id="@+id/tipoUnidade_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:paddingStart="20dp"
-        android:layout_below="@id/nomeFantasia_detail"
-        />
-
-    <TextView
-        android:id="@+id/telefone_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tipoUnidade_detail"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:paddingStart="20dp"
-        />
-
-    <TextView
-        android:id="@+id/title_endereco"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/endereco"
-        android:layout_below="@id/telefone_detail"
-        android:paddingTop="20dp"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"        />
-
-    <TextView
-        android:id="@+id/logradouro_numero_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:paddingStart="20dp"
-        android:layout_below="@id/title_endereco"
-        />
-
-    <TextView
-        android:id="@+id/bairro_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/logradouro_numero_detail"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:paddingStart="20dp"
-        />
-
-    <TextView
-        android:id="@+id/cidade_uf_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bairro_detail"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:paddingStart="20dp"
-        />
-
-    <TextView
-        android:id="@+id/servicos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/availableservicestitle"
-        android:layout_below="@id/cidade_uf_detail"
-        android:paddingTop="20dp"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/atendimento_urgencia_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/servicos"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:paddingStart="20dp"
-        />
-
-    <TextView
-        android:id="@+id/obstetra_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/atendimento_urgencia_detail"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:paddingStart="20dp"
-        />
-
-    <TextView
-        android:id="@+id/neonatal_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/obstetra_detail"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:paddingStart="20dp"
-        />
-</RelativeLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submit_feedback"
+            android:id="@+id/submitRating"
+            android:layout_below="@+id/rating_feedback"
+            />
+    </RelativeLayout>
+</ScrollView>

@@ -1,88 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:background="@color/white"
-    android:theme="@android:style/Theme.Material.Light">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollAbout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none" >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/search_title"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:id="@+id/options_title"
-        />
+    <RelativeLayout android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@color/white"
+        android:theme="@android:style/Theme.Material.Light">
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/list_uf"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_below="@id/options_title"
-        android:layout_marginTop="10dp"
-        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search_title"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:id="@+id/options_title"
+            />
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/list_cidade"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/list_uf"/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_uf"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_below="@id/options_title"
+            android:layout_marginTop="10dp"
+            />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_cidade"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/list_uf"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_especialidades"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/list_cidade"
+            />
 
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/search_sus"
-        android:id="@+id/checkBoxSus"
-        android:checked="false"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/list_cidade"
-        android:layout_alignParentStart="true" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_sus"
+            android:id="@+id/checkBoxSus"
+            android:checked="false"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/list_especialidades"
+            android:layout_alignParentStart="true" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/search_urgencia"
-        android:checked="false"
-        android:id="@+id/checkBoxUrgencia"
-        android:layout_below="@id/checkBoxSus"
-        android:layout_alignParentStart="true" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_urgencia"
+            android:checked="false"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:id="@+id/checkBoxUrgencia"
+            android:layout_below="@id/checkBoxSus"
+            android:layout_alignParentStart="true" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/search_obstetra"
-        android:checked="false"
-        android:id="@+id/checkBoxObstetra"
-        android:layout_below="@id/checkBoxUrgencia"
-        android:layout_alignParentStart="true" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_obstetra"
+            android:checked="false"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:id="@+id/checkBoxObstetra"
+            android:layout_below="@id/checkBoxUrgencia"
+            android:layout_alignParentStart="true" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:text="@string/search_neonatal"
-        android:id="@+id/checkBoxNeoNatal"
-        android:layout_below="@id/checkBoxObstetra"
-        android:layout_alignParentStart="true" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="@string/search_neonatal"
+            android:id="@+id/checkBoxNeoNatal"
+            android:layout_below="@id/checkBoxObstetra"
+            android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnSubmit_Search"
-        android:layout_below="@id/checkBoxNeoNatal"
-        android:text="@string/search_submit"
-        />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSubmit_Search"
+            android:layout_below="@id/checkBoxNeoNatal"
+            android:text="@string/search_submit"
+            />
 
-</RelativeLayout>
+        <ProgressBar
+            android:id="@+id/progressOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/btnSubmit_Search"
+            android:layout_below="@id/checkBoxNeoNatal"
+            android:layout_centerHorizontal="false"
+            android:foregroundTint="@color/colorPrimary"
+            android:visibility="gone"
 
+            android:indeterminate="true" />
+    </RelativeLayout>
+
+</ScrollView>
